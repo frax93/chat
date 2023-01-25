@@ -1,7 +1,7 @@
 import { makeStyles, createStyles } from "@mui/styles";
 import React from "react";
 import { memo, useCallback } from "react";
-import { KEY_STORAGE_USER } from "../constants";
+import { KEY_STORAGE_USER } from "../env-constants";
 import useSessionStorage from "../hooks/useSessionStorage";
 import { Messages } from "../view-models/message";
 import { SetMessages } from "../view-models/set-message";
@@ -56,7 +56,7 @@ function MessageListComponent({
   }, [messages, setMessages]);
 
   return (
-    <div className={classes.messagesBody}>
+    <div className={classes.messagesBody} data-testid="messages">
       {messages?.map((message, index) => (
         <Message
           key={`${message.id}.${message.user}`}

@@ -12,8 +12,12 @@ import { FormikHelpers, useFormik } from "formik";
 import * as yup from "yup";
 import useLocalStorage from "../hooks/useLocalStorage";
 import useSessionStorage from "../hooks/useSessionStorage";
-import { KEY_STORAGE_USER, KEY_STORAGE_USERS } from "../constants";
+import { KEY_STORAGE_USER, KEY_STORAGE_USERS } from "../env-constants";
 import { Users } from "../view-models/user";
+
+const validationSchema = Object.freeze(yup.object({}).shape({
+  username: yup.string().required("Field required"),
+}));
 
 interface UsernameInsertModalProps {
   handleVisibility: (isVisible: boolean) => void;
@@ -88,9 +92,7 @@ function UsernameInsertModalComponent({
       username: "",
     },
     // The username is required
-    validationSchema: yup.object({}).shape({
-      username: yup.string().required("Field required"),
-    }),
+    validationSchema,
     onSubmit: handleInsertUsername,
   });
 
@@ -102,7 +104,7 @@ function UsernameInsertModalComponent({
   }, [userId, handleVisibility]);
 
   return isVisible ? (
-    <Dialog open={isVisible} onClose={handleClose}>
+    <Dialog open={isVisible} onClose={handleClose} data-testid="username-modal">
       <DialogTitle>Chat Room</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -113,7 +115,7 @@ function UsernameInsertModalComponent({
           margin="dense"
           id="username"
           label="Username"
-          arie-label="Username"
+          aria-label="Username"
           type="text"
           value={modalForm.values.username || ""}
           fullWidth
@@ -124,6 +126,9 @@ function UsernameInsertModalComponent({
             if (event.key === "Enter") {
               modalForm.handleSubmit();
             }
+          }}
+          inputProps={{
+            'data-testid': 'username'
           }}
           variant="standard"
           error={!!modalForm.errors.username && modalForm.touched.username}
@@ -138,6 +143,7 @@ function UsernameInsertModalComponent({
           onClick={() => {
             modalForm.handleSubmit();
           }}
+          data-testid="begin"
         >
           Begin
         </Button>

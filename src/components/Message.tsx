@@ -113,21 +113,22 @@ const MessageComponent: React.FC<MessageProps> = ({
 
   if (isRight) {
     return (
-      <div className={classes.messageRowRight}>
+      <div className={classes.messageRowRight} data-testid="message">
         <div className={classes.messageOrange}>
           <div>
             {displayName} {timestamp}
           </div>
-          <p className={classes.messageContent}>{messageValue}</p>
+          <p className={classes.messageContent} data-testid={`message-content-${id}`}>{messageValue}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={classes.messageRow}>
+    <div className={classes.messageRow} data-testid="message">
       <div
         className={classes.messageBlue}
+        data-testid={`message-hover-${id}`}
         onMouseOver={() => {
           setElementHovered(true);
         }}
@@ -143,6 +144,8 @@ const MessageComponent: React.FC<MessageProps> = ({
                 onClick={() => {
                   onRemoveHandler(id, user);
                 }}
+                id="remove-icon"
+                data-testid="remove-icon"
               >
                 <Cancel />
               </IconButton>
@@ -150,7 +153,7 @@ const MessageComponent: React.FC<MessageProps> = ({
           ) : undefined}
         </div>
         <div>
-          <p className={classes.messageContent}>{messageValue}</p>
+          <p className={classes.messageContent} data-testid={`message-content-${id}`}>{messageValue}</p>
         </div>
       </div>
     </div>

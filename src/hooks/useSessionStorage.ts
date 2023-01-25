@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 // The hook to get the value of a determinated key from sessionStorage
-const useSessionStorage = <T,>(key: string, initialValue?: T) => {
+const useSessionStorage = <T,>(key: string, initialValue?: T): [T, (value: T) => void] => {
   // Function to get the value of the key from the storage
   const getFromSessionStorage = useCallback(() => {
     try {
