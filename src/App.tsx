@@ -6,7 +6,7 @@ import UsernameInsertModal from "./components/UsernameInsertModal";
 import MessageList from "./components/MessageList";
 import ChatBox from "./components/ChatBox";
 import useLocalStorage from "./hooks/useLocalStorage";
-import { KEY_STORAGE_MESSAGES } from "./constants";
+import { KEY_STORAGE_MESSAGES } from "./env-constants";
 import { Messages } from "./view-models/message";
 
 const useStyles = makeStyles(() =>
@@ -42,7 +42,7 @@ function App() {
     <div className="App">
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div">
+          <Typography variant="h6" component="div" data-testid="navbar-title">
             Chat Room
           </Typography>
         </Toolbar>

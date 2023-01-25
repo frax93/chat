@@ -4,14 +4,12 @@ import { FormikHelpers, useFormik } from "formik";
 import * as yup from "yup";
 import useSessionStorage from "../hooks/useSessionStorage";
 import { DateTime } from "luxon";
-import { KEY_STORAGE_LAST_MESSAGE, KEY_STORAGE_USER } from "../constants";
+import { KEY_STORAGE_LAST_MESSAGE, KEY_STORAGE_USER } from "../env-constants";
 import { Message, Messages } from "../view-models/message";
 import { SetMessages } from "../view-models/set-message";
 
-const regexMessage = /^[A-Za-z0-9]+[\s]*$/ig;
-
 const validationSchema = Object.freeze(yup.object({}).shape({
-  message: yup.string().required("Field required").matches(regexMessage, 'Invalid format'),
+  message: yup.string().required("Field required"),
 }));
 
 
@@ -30,8 +28,8 @@ interface ChatBoxProps {
  * The component to render the chat box component
  * @param {Object} props the props object
  * @param {Messages} props.messages messages to render
- * @param {VoidFunction} props.setMessages the function to set the messages in the store
- * @returns {React.ReactElement}
+ * @param {SetMessages} props.setMessages the function to set the messages in the store
+ * @returns {React.ReactElement} the returned element
  */
 function ChatBoxComponent({
   messages = [],
@@ -123,8 +121,8 @@ function ChatBoxComponent({
   });
 
   return (
-    <div>
-      <form onSubmit={chatForm.handleSubmit}>
+    <div data-testid="chat-box">
+      <form onSubmit={chatForm.handleSubmit} data-testid="form">
         <Grid container spacing={1} display="flex" alignItems="center">
           <Grid item xs={12} md={1}>
             <Typography>{userId}</Typography>
@@ -136,6 +134,9 @@ function ChatBoxComponent({
               type="text"
               placeholder="Enter message text"
               fullWidth
+              inputProps={{
+                'data-testid': 'message'
+              }}
               value={chatForm.values.message || ""}
               onChange={(event) => {
                 chatForm.setValues({
